@@ -41,7 +41,7 @@ const onQrCode = async (client: Client, dataStore: DataStore, qrCode: string) =>
         url: qrCodeUrl,
         mimetype: 'image/png',
         fileLength: qrCode.length,
-        caption: `Please, read the QR Code to connect on Whatsapp Web, attempt ${counts.get(client.phone)} of ${max}`,
+        caption: `Por favor, leia o QR Code para se conectar no Whatsapp Web, tente ${counts.get(client.phone)} of ${max}`,
       },
     },
     messageTimestamp,
@@ -154,7 +154,7 @@ export const connect = async <T>({ store, client }: { store: Store; client: Clie
           }, 1_000)
         } catch (error) {}
       } else {
-        const message = `The session is removed in Whatsapp App`
+        const message = `A sessão é removida no Whatsapp App`
         await client.sendStatus(message)
         await disconnectSock(sock)
         try {
@@ -167,12 +167,12 @@ export const connect = async <T>({ store, client }: { store: Store; client: Clie
       }
     } else if (connection === 'open') {
       const { version, isLatest } = await fetchLatestBaileysVersion()
-      const message = `Connnected using Whatsapp Version v${version.join('.')}, is latest? ${isLatest}`
+      const message = `Conectado usando a versão do Whatsapp v${version.join('.')}, é a mais recente? ${isLatest}`
       await client.sendStatus(message)
     } else if (update.qr) {
       if (!(await onQrCode(client, dataStore, update.qr))) {
         await disconnectSock(sock)
-        const message = `The ${max} times of generate qrcode is exceded!`
+        const message = `As ${max} vezes de geração do qrcode foram excedidas!`
         await client.sendStatus(message)
         throw message
       }
@@ -180,7 +180,7 @@ export const connect = async <T>({ store, client }: { store: Store; client: Clie
       const message = `Connnecting...`
       await client.sendStatus(message)
     } else if (update.isNewLogin) {
-      const message = `Please be careful, the http endpoint is unprotected and if it is exposed in the network, someone else can send message as you!`
+      const message = `Tenha cuidado, o ponto de extremidade http está desprotegido e, se estiver exposto na rede, outra pessoa pode enviar uma mensagem com!`
       await client.sendStatus(message)
     } else {
       console.debug('connection.update', update)
